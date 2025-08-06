@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+spring:
+    application:
+        name: WYSPER-BACKEND
+
+    profiles:
+      active: test
