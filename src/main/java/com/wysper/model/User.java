@@ -36,11 +36,14 @@ public class User {
     private String smessage;
 
     @Column(unique = true)
-    private String ppicurl;
+    private String ppicid;
 
     @NotBlank
     @Column(unique = true, nullable = false, length = 16, name = "uname")
     private String username;
+
+    @Column
+    private String phone;
 
     @NotBlank
     @Column(unique = true, nullable = false)
@@ -57,6 +60,8 @@ public class User {
     private String dtoken;
 
     private boolean isactive;
+    private boolean deactivated;
+    private boolean deleted;
     private boolean everified;
 
 
