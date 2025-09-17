@@ -6,4 +6,4 @@ spring:
         name: WYSPER-BACKEND
 
     profiles:
-      active: test
+      active: dev
