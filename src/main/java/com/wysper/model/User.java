@@ -9,68 +9,68 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.util.Date;
-import java.util.UUID;
+
+import java.util.*;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
-    @Column(unique = true, nullable = false, updatable = false)
-    private UUID uuid = UUID.randomUUID();
+    @GeneratedValue
+    private UUID id;
 
     @NotBlank
-    private String fname;
-    @NotBlank
-    private String lname;
-
-    private String smessage;
-
-    @Column(unique = true)
-    private String ppicid;
-
-    @NotBlank
-    @Column(unique = true, nullable = false, length = 16, name = "uname")
+    @Column(unique = true, nullable = false, length = 16)
     private String username;
-
-    @Column
-    private String phone;
 
     @NotBlank
     @Column(unique = true, nullable = false)
     private String email;
 
+    private String phone;
+
+    private String passwordHashed;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
+
+    @ManyToMany
+    @JoinTable(
+            name = "contacts",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "contact_user_id")
+    )
+    private Set<User> contacts = new HashSet<>();
+
     @NotBlank
-    private String totpsecret;
+    private String tOtpSecret;
     @NotBlank
-    private String enpubkey;
+    private String enPubKey;
     @NotBlank
-    private String enprivkey;
+    private String enPriKey;
     @NotBlank
     @Column(columnDefinition = "TEXT")
-    private String dtoken;
+    private String dToken;
+    private String dName;
+    private String dType;
+    private String deviceId;
 
-    private boolean isactive;
+    private boolean active;
     private boolean deactivated;
     private boolean deleted;
-    private boolean everified;
+    private boolean eVerified;
 
 
     @CreatedDate
-    @Column(name = "created_at", updatable = false, nullable = false)
-    private Date createdat;
+    @Column(updatable = false, nullable = false)
+    private Date createdAt;
 
     @LastModifiedDate
-    @Column(name = "last_seen", nullable = false)
-    private Date lastseen;
+    @Column(nullable = false)
+    private Date updatedAt;
 
 }
